@@ -40,33 +40,29 @@
     function addObject(a) {
       var keys = Object.keys(a),
           len = keys.length,
-          key, n, a0Type;
+          key, n, type;
 
       // only process if we have not yet analyzed this object
       if (!a.__ballpark) {
         objectCount++;
 
         if (len > 0) {
-          a0Type = getType(a[keys[0]]);
-
           for (key in a) {
-            addKey(key);
-          }
+            type = getType(a[key]);
 
-          // NOTE: ballpark assumes that you (the developer) are using homogenous
-          // objects because it's good JavaScript practice.
-          if (a0Type === 'array') {
-            for (key in a) {
+            addKey(key);
+
+            if (type === 'array') {
               addArray(a[key]);
             }
-          }
-          else if (a0Type === 'object') {
-            for (key in a) {
-              addObject(a[key]);
+            else if (type === 'object') {
+              for (key in a) {
+                addObject(a[key]);
+              }
             }
-          }
-          else {
-            objectElementSize += 8 * len; 
+            else {
+              objectElementSize += 8; 
+            }
           }
         }
 
@@ -76,7 +72,7 @@
     }
 
     function addArray(a) {
-      var len, n, a0Type;
+      var len, n, type;
 
       // only process if we have not yet analyzed this array
       if (!a.__ballpark) {
@@ -85,22 +81,20 @@
 
         if (len > 0) {
           arrayElementCount += len;
-          a0Type = getType(a[0]);
 
-          // NOTE: ballpark assumes that you (the developer) are using homogenous
-          // arrays because it's good JavaScript practice.
-          if (a0Type === 'array') {
-            for (n=0; n<len; n++) {
+          for (n=0; n<len; n++) {
+
+            type = getType(a[0]);
+
+            if (type === 'array') {
               addArray(a[n]);
             }
-          }
-          else if (a0Type === 'object') {
-            for (n=0; n<len; n++) {
+            else if (type === 'object') {
               addObject(a[n]);
             }
-          }
-          else {
-            arrayElementSize += 8 * len; 
+            else {
+              arrayElementSize += 8; 
+            }
           }
         }
 
