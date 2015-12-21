@@ -1,10 +1,10 @@
 /*
- * ballpark v0.0.0
+ * ballpark v@@VERSION
  * Copyright @@YEAR, Eric Rowell
  * Licensed under the MIT or GPL Version 2 licenses.
  * Date: @@DATE
  *
- * Copyright (C) @@Year by Eric Rowell
+ * Copyright (C) @@YEAR by Eric Rowell
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
