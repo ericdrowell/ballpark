@@ -65,12 +65,12 @@
         totalSize = 0;
 
     function addObject(a) {
-      var keys = Object.keys(a),
-          len = keys.length,
-          key, n, type;
+      var keys, len, key, n, type;
 
       // only process if we have not yet analyzed this object
-      if (!a.__ballpark) {
+      if (a && !a.__ballpark) {
+        keys = Object.keys(a);
+        len = keys.length;
         objectCount++;
 
         if (len > 0) {
@@ -102,7 +102,7 @@
       var len, n, type;
 
       // only process if we have not yet analyzed this array
-      if (!a.__ballpark) {
+      if (a && !a.__ballpark) {
         len = a.length;
         arrayCount++;
 
