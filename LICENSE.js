@@ -1,10 +1,11 @@
 /*
  * ballpark v@@VERSION
- * Copyright @@YEAR, Eric Rowell
+ * JavaScript library for estimating object and array memory usage in the browser.
+ * Release Date: @@DATE
+ * https://github.com/ericdrowell/ballpark
  * Licensed under the MIT or GPL Version 2 licenses.
- * Date: @@DATE
  *
- * Copyright (C) @@YEAR by Eric Rowell
+ * Copyright (C) @@YEAR Eric Rowell @ericdrowell
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

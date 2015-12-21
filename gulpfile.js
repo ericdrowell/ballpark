@@ -25,8 +25,8 @@ gulp.task('build-license-dev', function() {
   return gulp.src(['LICENSE.js', 'src/ballpark.js'])
     .pipe(concat('ballpark-v' + package.version + '.js'))
     .pipe(replace('@@VERSION', package.version))
-    .pipe(replace('@@DATE', date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()))
-    .pipe(replace('@@YEAR', new Date().getFullYear()))
+    .pipe(replace('@@DATE', date.getMonth()+1 + '-' + date.getDate() + '-' + date.getFullYear()))
+    .pipe(replace('@@YEAR', date.getFullYear()))
     .pipe(gulp.dest('build'));
 });
 
@@ -41,8 +41,8 @@ gulp.task('license-prod', function() {
   return gulp.src(['LICENSE.js', 'build/ballpark-v' + package.version + '.min.js'])
     .pipe(concat('ballpark-v' + package.version + '.min.js'))
     .pipe(replace('@@VERSION', package.version))
-    .pipe(replace('@@DATE', date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()))
-    .pipe(replace('@@YEAR', new Date().getFullYear()))
+    .pipe(replace('@@DATE', date.getMonth()+1 + '-' + date.getDate() + '-' + date.getFullYear()))
+    .pipe(replace('@@YEAR', date.getFullYear()))
     .pipe(gulp.dest('build'));
 });
 
