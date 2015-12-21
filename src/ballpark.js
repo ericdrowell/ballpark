@@ -37,6 +37,29 @@
 
         totalSize = 0;
 
+    function addKeys(keys) {
+      var len = keys.length,
+          longestKeyLength = 0,
+          n;
+
+      for (n=0; n<len; n++) {
+        longestKeyLength = Math.max(longestKeyLength, keys[n].length);
+      }
+
+      //console.log(longestKeyLength)
+
+      // this logic was reverse engineered by obtaining data points which related key 
+      // lengths and memory usage, plotting them into a scatter plot, and solving the 
+      // trendlines.  Generally, memory usage seems to increase linearly as a function 
+      // of key length
+      if (longestKeyLength <= 16) {
+        objectKeySize += 2 * len;
+      }
+      else {
+        objectKeySize += (9000000 + 99126 * longestKeyLength) * len / 100000;
+      }
+    }
+
     function addObject(a) {
       var keys, len, key, n, type;
 
@@ -46,11 +69,11 @@
         len = keys.length;
         objectCount++;
 
+        addKeys(keys);
+
         if (len > 0) {
           for (key in a) {
             type = getType(a[key]);
-
-            addKey(key);
 
             if (type === 'array') {
               addArray(a[key]);
@@ -103,19 +126,14 @@
       }
     }
 
-    function addKey(a) {
-      objectKeyCount++;
-      objectKeySize += a.length * 2.5;
-    }
-
     function formatSize(size) {
-      if (size > 1000000000) {
+      if (size >= 1000000000) {
         return (Math.round(size * 10 / 1000000000) / 10) + ' GB';
       }
-      else if (size > 1000000) {
+      else if (size >= 1000000) {
         return (Math.round(size * 10 / 1000000) / 10) + ' MB';
       }
-      else if (size > 1000) {
+      else if (size >= 1000) {
         return (Math.round(size * 10 / 1000) / 10) + ' KB';
       }
       else {

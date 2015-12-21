@@ -7,9 +7,23 @@
     <h1>ballpark Manual Testing</h1>
     <script src="../src/ballpark.js"></script>
     <script>
-      var testObj;
 
-      function buildTypeArray() {
+      var ballparkEnabled = true,
+          obj1 = {}, obj2 = {}, obj3 = {}, obj4 = {}, obj5 = {}, obj6 = {}, obj7 = {};
+
+      function logBallpark(key, obj) {
+        var stats;
+
+        console.log('====== ' + key + ' ======');
+
+        if (ballparkEnabled) {
+          stats = ballpark(obj);
+          console.log(stats);
+          console.log(stats.formattedSize);
+        }
+      }
+
+      function buildTypeArrays() {
         var buffer = new ArrayBuffer(1000000*4),
             n;
         
@@ -21,7 +35,7 @@
         }
       }
 
-      function buildArray() {
+      function buildArrays() {
         var n;
 
         testObj = [];
@@ -31,19 +45,46 @@
         }
       }
 
-      function buildObject() {
+      function buildObjects() {
         var n;
 
-        testObj = {};
+        for (n=0; n<100000; n++) {
+          obj1[n + 'key'] = 'a';
+        }
+        logBallpark('obj1', obj1);
 
         for (n=0; n<100000; n++) {
-          //testObj[n] = 'a';
-          //testObj[n + '-keykeykeykeykeykeykeykeykeykey'] = 'a';
-          testObj[n + '-keykeykeykeykeykeykeykeykeykeyeykeykeykeykeykeykey'] = 'a';
+          obj2[n + 'keykey'] = 'a';
         }
+        logBallpark('obj2', obj2);
+
+        for (n=0; n<100000; n++) {
+          obj3[n + 'keykeykeykey'] = 'a';
+        }
+        logBallpark('obj3', obj3);
+
+        for (n=0; n<100000; n++) {
+          obj4[n + 'keykeykeykeykeykeykeykey'] = 'a';
+        }
+        logBallpark('obj4', obj4);
+
+        for (n=0; n<100000; n++) {
+          obj5[n + 'keykeykeykeykeykeykeykeykeykeykeykeykeykeykeykey'] = 'a';
+        }
+        logBallpark('obj5', obj5);
+
+        for (n=0; n<100000; n++) {
+          obj6[n + 'keykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykey'] = 'a';
+        }
+        logBallpark('obj6', obj6);
+
+        for (n=0; n<100000; n++) {
+          obj7[n + 'keykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykey'] = 'a';
+        }
+        logBallpark('obj7', obj7);
       }
 
-      function buildNestedObject() {
+      function buildNestedObjects() {
         var n, i, arr;
 
         testObj = {};
@@ -59,25 +100,7 @@
         }
       }
 
-      function getSize() {
-        var bp = ballpark(testObj);
-        console.log(bp);
-        console.log(bp.size);
-        console.log(bp.formattedSize);
-      }
-
-      //buildObject();
-      //buildNestedObject();
-
-      testObj = {
-        foo: 1,
-        bar: [1, 2]
-      };
-
-      console.log(testObj);
-
-      getSize();
-
+      buildObjects();
 
     </script>
   </body>  
