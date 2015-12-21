@@ -16,79 +16,21 @@
 
         mocha.setup('tdd');
 
-        test('number size', function(){
-          assert.equal(ballpark(12).size, 8);
-        });
-
-        test('string size', function(){
-          assert.equal(ballpark('foobar').size, 6 * 2);
-        });
-
-        test('boolean size', function(){
-          assert.equal(ballpark(true).size, 4);
-        });
-
-        test('null size', function(){
-          assert.equal(ballpark(null).size, 4);
-        });
-
-        test('object size', function(){
+        test('object', function(){
           var obj = {
                 foo: 5,
                 bar: 'abcdefghijk'
-              },
-              expectedSize = 0;
+              };
 
-          // foo key
-          expectedSize += 2*3;
-          // bar key
-          expectedSize += 2*3;
-          // 5 number
-          expectedSize += 8;
-          // abcdefghijk string
-          expectedSize += 2*11;
-
-          assert.equal(ballpark(obj).size, expectedSize);
-
-          assert.equal(obj.__ballpark, true);
+          assert.equal(ballpark(obj).size, (2 * 8) + (2 * 3 * 2.5));
+          assert.ok(obj.__ballpark);
         });
 
-        test('array size', function(){
+        test('array', function(){
           var arr = [1, 2, 3];
 
-          assert.equal(ballpark(arr).size, 8 * 3);
-
-          assert.equal(arr.__ballpark, true);
-        });
-
-        test('nested object size', function(){
-          var obj = {
-                a: 1,
-                b: {
-                  c: 2,
-                  d: 'abcdefghijk'
-                }
-              },
-              expectedSize = 0;
-
-          // a key
-          expectedSize += 2*1;
-          // b key
-          expectedSize += 2*1;
-          // 1 number
-          expectedSize += 8;
-          // c key
-          expectedSize += 2*1;
-          // d key
-          expectedSize += 2*1;
-          // 2 number
-          expectedSize += 8;
-          // abcdefghijk string
-          expectedSize += 2*11;
-
-          assert.equal(ballpark(obj).size, expectedSize);
-
-          assert.equal(obj.__ballpark, true);
+          assert.equal(ballpark(arr).size, 3 * 8);
+          assert.ok(arr.__ballpark);
         });
 
         mocha.run();

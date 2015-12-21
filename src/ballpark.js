@@ -29,105 +29,107 @@
         objectKeyCount = 0,
         arrayCount = 0,
         arrayElementCount = 0,
-        numberCount = 0,
-        stringCount = 0,
-        booleanCount = 0,
-        nullCount = 0,
 
         // sizes
-        booleanSize = 0,
-        numberSize = 0,
-        stringSize = 0,
-        objectKeySize = 0,
-        nullSize = 0;
+        arrayElementSize = 0,
+        objectElementSize = 0,
+        objectKeySize = 0;
 
-    function route(a) {
-      // NOTE: ignoring functions
-      switch(getType(a)) {
-        case 'object': ballparkObject(a); break;
-        case 'array': ballparkArray(a); break;
-        case 'number': ballparkNumber(a); break;
-        case 'string': ballparkString(a); break;
-        case 'boolean': ballparkBoolean(a); break;
-        case 'null': ballparkNull(a); break;
-      }
-    }
-
-    function ballparkObject(a) {
-      var key;
+    function addObject(a) {
+      var keys = Object.keys(a),
+          len = keys.length,
+          key, n, a0Type;
 
       // only process if we have not yet analyzed this object
       if (!a.__ballpark) {
         objectCount++;
 
-        for (key in a) {
-          if (a.hasOwnProperty(key)) {
-            objectKeyCount++;
-            objectKeySize += 2 * key.length;
-            // add crumb so that we do not double count the same object by reference
-            a.__ballpark = true;
-            route(a[key]);
+        if (len > 0) {
+          a0Type = getType(a[0]);
+
+          for (key in a) {
+            addKey(key);
+          }
+
+          // NOTE: ballpark assumes that you (the developer) are using homogenous
+          // objects because it's good JavaScript practice.
+          if (a0Type === 'array') {
+            for (key in a) {
+              addArray(a[key]);
+            }
+          }
+          else if (a0Type === 'object') {
+            for (key in a) {
+              addObject(a[key]);
+            }
+          }
+          else {
+            objectElementSize += 8 * len; 
           }
         }
+
+        // add crumb so that we do not double count the same object by reference
+        a.__ballpark = true;
       }
     }
 
-    function ballparkArray(a) {
-      var len, n;
+    function addArray(a) {
+      var len, n, a0Type;
 
       // only process if we have not yet analyzed this array
       if (!a.__ballpark) {
         len = a.length;
         arrayCount++;
 
-        for (n=0; n<len; n++) {
-          arrayElementCount++;
-          // add crumb so that we do not double count the same array by reference
-          a.__ballpark = true;
-          route(a[n]);
+        if (len > 0) {
+          arrayElementCount += len;
+          a0Type = getType(a[0]);
+
+          // NOTE: ballpark assumes that you (the developer) are using homogenous
+          // arrays because it's good JavaScript practice.
+          if (a0Type === 'array') {
+            for (n=0; n<len; n++) {
+              addArray(a[n]);
+            }
+          }
+          else if (a0Type === 'object') {
+            for (n=0; n<len; n++) {
+              addObject(a[n]);
+            }
+          }
+          else {
+            arrayElementSize += 8 * len; 
+          }
         }
+
+        // add crumb so that we do not double count the same object by reference
+        a.__ballpark = true;
       }
     }
 
-    function ballparkNumber() {
-      numberCount++;
-      numberSize += 8;
-    }
-
-    function ballparkString(a) {
-      stringCount++;
-      stringSize += 2 * a.length;
-    }
-
-    function ballparkBoolean() {
-      booleanCount++;
-      booleanSize += 4 ;
-    }
-
-    function ballparkNull() {
-      nullCount++;
-      nullSize += 4;
+    function addKey(a) {
+      objectKeyCount++;
+      objectKeySize += a.length * 2.5;
     }
 
     // start traversing
-    route(a);
+    if (getType(a) === 'object') {
+      addObject(a);
+    }
+    else if (getType(a) === 'array') {
+      addArray(a);
+    }
 
     return {
       objectCount: objectCount,
       objectKeyCount: objectKeyCount,
       arrayCount: arrayCount,
       arrayElementCount: arrayElementCount,
-      numberCount: numberCount,
-      stringCount: stringCount,
-      booleanCount: booleanCount,
-      nullCount: nullCount,
 
-      booleanSize: booleanSize,
-      numberSize: numberSize,
-      stringSize: stringSize,
-      objectKeySize: objectKeySize,
-      nullSize: nullSize,
-      size: booleanSize + numberSize + stringSize + objectKeySize + nullSize
+      arrayElementSize: Math.ceil(arrayElementSize),
+      objectElementSize: Math.ceil(objectElementSize),
+      objectKeySize: Math.ceil(objectKeySize),
+      size: Math.ceil(arrayElementSize + objectElementSize + objectKeySize)
     };
   };
 

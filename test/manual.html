@@ -1,0 +1,60 @@
+<html>  
+  <head>  
+    <meta charset="utf-8">
+    <title>ballpark Manual Testing</title>
+  </head>  
+  <body>  
+    <h1>ballpark Manual Testing</h1>
+    <script src="../src/ballpark.js"></script>
+    <script>
+      var testObj;
+
+      function buildTypeArray() {
+        var buffer = new ArrayBuffer(1000000*4),
+            n;
+        
+        testObj = new Int32Array(buffer);
+
+
+        for (n=0; n<100000; n++) {
+          testObj[n] = undefined;
+        }
+      }
+
+      function buildArray() {
+        var n;
+
+        testObj = [];
+
+        for (n=0; n<100000; n++) {
+          testArr[n] = undefined;
+        }
+      }
+
+      function buildObject() {
+        var n;
+
+        testObj = {};
+
+        for (n=0; n<100000; n++) {
+          //testObj[n] = 'a';
+          //testObj[n + '-keykeykeykeykeykeykeykeykeykey'] = 'a';
+          testObj[n + '-keykeykeykeykeykeykeykeykeykeyeykeykeykeykeykeykey'] = 'a';
+        }
+      }
+
+      function getSize() {
+        var bp = ballpark(testObj);
+        console.log(bp);
+        console.log(bp.size);
+      }
+
+      buildObject();
+      console.log(testObj);
+
+      getSize();
+
+
+    </script>
+  </body>  
+</html> 
