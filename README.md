@@ -15,14 +15,14 @@ The ballpark functions returns the following object which is useful for seeing t
 
 ```
 {
-  arrayCount: 0
-  arrayElementCount: 0
-  arrayElementSize: 0
-  formattedSize: "31 B"
+  arrayCount: 1
+  arrayElementCount: 2
+  arrayElementSize: 16
+  formattedSize: "39 B"
   objectCount: 1
-  objectElementSize: 16
+  objectElementSize: 8
   objectKeyCount: 2
   objectKeySize: 15
-  size: 31
+  size: 39
 }
 ```
