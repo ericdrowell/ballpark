@@ -33,7 +33,9 @@
         // sizes
         arrayElementSize = 0,
         objectElementSize = 0,
-        objectKeySize = 0;
+        objectKeySize = 0,
+
+        totalSize = 0;
 
     function addObject(a) {
       var keys = Object.keys(a),
@@ -45,7 +47,7 @@
         objectCount++;
 
         if (len > 0) {
-          a0Type = getType(a[0]);
+          a0Type = getType(a[keys[0]]);
 
           for (key in a) {
             addKey(key);
@@ -112,6 +114,21 @@
       objectKeySize += a.length * 2.5;
     }
 
+    function formatSize(size) {
+      if (size > 1000000000) {
+        return (Math.round(size * 10 / 1000000000) / 10) + ' GB';
+      }
+      else if (size > 1000000) {
+        return (Math.round(size * 10 / 1000000) / 10) + ' MB';
+      }
+      else if (size > 1000) {
+        return (Math.round(size * 10 / 1000) / 10) + ' KB';
+      }
+      else {
+        return (Math.round(size * 10 / 1) / 10) + ' B';
+      }
+    }
+
     // start traversing
     if (getType(a) === 'object') {
       addObject(a);
@@ -119,6 +136,8 @@
     else if (getType(a) === 'array') {
       addArray(a);
     }
+
+    totalSize = Math.ceil(arrayElementSize + objectElementSize + objectKeySize);
 
     return {
       objectCount: objectCount,
@@ -129,7 +148,8 @@
       arrayElementSize: Math.ceil(arrayElementSize),
       objectElementSize: Math.ceil(objectElementSize),
       objectKeySize: Math.ceil(objectKeySize),
-      size: Math.ceil(arrayElementSize + objectElementSize + objectKeySize)
+      size: totalSize,
+      formattedSize: formatSize(totalSize)
     };
   };
 

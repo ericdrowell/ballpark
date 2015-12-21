@@ -43,13 +43,32 @@
         }
       }
 
+      function buildNestedObject() {
+        var n, i, arr;
+
+        testObj = {};
+
+        for (n=0; n<100; n++) {
+          arr = [];
+
+          for (i=0; i<1000; i++) {
+            arr[i] = i * 30;
+          }
+
+          testObj[n + '-keykeykeykey'] = arr;
+        }
+      }
+
       function getSize() {
         var bp = ballpark(testObj);
         console.log(bp);
         console.log(bp.size);
+        console.log(bp.formattedSize);
       }
 
-      buildObject();
+      //buildObject();
+      buildNestedObject();
+
       console.log(testObj);
 
       getSize();
