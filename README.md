@@ -1,6 +1,8 @@
 # ballpark
 
-ballpark is a JavaScript library that estimates the memory usage of objects and arrays in the browser.  The API is really simple:
+ballpark is a JavaScript library that estimates the memory usage of objects and arrays in the browser.  
+
+### API
 
 ```
 var obj = {
@@ -11,7 +13,7 @@ var obj = {
 var size = ballpark(obj).size;
 ```
 
-The ballpark function returns the following object which is useful for seeing the breakdown of memory usage:
+### All Properties
 
 ```
 {
