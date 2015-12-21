@@ -11,7 +11,7 @@ var obj = {
 var size = ballpark(obj).size;
 ```
 
-The ballpark functions returns the following object which is useful for seeing the breakdown of memory usage:
+The ballpark function returns the following object which is useful for seeing the breakdown of memory usage:
 
 ```
 {
