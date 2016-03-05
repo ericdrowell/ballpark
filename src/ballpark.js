@@ -135,12 +135,7 @@
     }
 
     // start traversing
-    if (getType(a) === 'object') {
-      addObject(a);
-    }
-    else if (getType(a) === 'array') {
-      addArray(a);
-    }
+    addThing(a);
 
     totalSize = Math.ceil(objectKeySize + stringSize + numberSize);
 

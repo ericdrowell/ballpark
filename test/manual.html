@@ -18,39 +18,39 @@
       // console.log(ballpark(arr));
 
       // ================== SIMPLE OBJECT
-      // var obj = {};
+      var obj = {};
 
-      // for (var n=0; n<1000000; n++) {
-      //   obj[n + '-'] = '11111111';
-      // }
+      for (var n=0; n<1000000; n++) {
+        obj[n + '-'] = '11111111';
+      }
 
-      // console.log(ballpark(obj));
+      console.log(ballpark(obj));
 
 
 
       // ================== ARRAY OF COMPLEX OBJECTS
-      var arr = [],
-          obj, key;
+      // var arr = [],
+      //     obj, key;
 
-      for (var n=0; n<1000; n++) {
-        obj = {};
+      // for (var n=0; n<1000; n++) {
+      //   obj = {};
 
-        for (var i=0; i<1000; i++) {
-          key = i + '-';
+      //   for (var i=0; i<1000; i++) {
+      //     key = i + '-';
 
-          obj[key] = {
-            a: '1111111',
-            b: [1,2,3,4,5],
-            c: {
-              fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo: 'bar'
-            },
-            1111111111: 808080809
-          }
-        }
-        arr.push(obj);
-      }
+      //     obj[key] = {
+      //       a: '1111111',
+      //       b: [1,2,3,4,5],
+      //       c: {
+      //         fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo: 'bar'
+      //       },
+      //       1111111111: 808080809
+      //     }
+      //   }
+      //   arr.push(obj);
+      // }
 
-      console.log(ballpark(arr));
+      // console.log(ballpark(arr));
 
     </script>
   </body>  
