@@ -35,15 +35,17 @@
         // sizes
         stringSize = 0,
         numberSize = 0,
-        objectKeySize = 0,
 
         totalSize = 0;
 
     function addKeys(keys) {
       var len = keys.length;
 
+      keys.forEach(function(key) {
+        addThing(key);
+      });
+
       objectKeyCount += len;
-      objectKeySize += len * 64;
     }
 
     function addThing(val) {
@@ -137,7 +139,7 @@
     // start traversing
     addThing(a);
 
-    totalSize = Math.ceil(objectKeySize + stringSize + numberSize);
+    totalSize = Math.ceil(stringSize + numberSize);
 
     return {
       // counts
@@ -151,7 +153,6 @@
       // sizes
       stringSize: Math.ceil(stringSize),
       numberSize: Math.ceil(numberSize),
-      objectKeySize: Math.ceil(objectKeySize),
 
       size: totalSize,
       formattedSize: formatSize(totalSize)
