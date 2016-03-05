@@ -29,100 +29,110 @@
         objectKeyCount = 0,
         arrayCount = 0,
         arrayElementCount = 0,
+        stringCount = 0,
+        numberCount = 0,
 
         // sizes
-        arrayElementSize = 0,
-        objectElementSize = 0,
+        stringSize = 0,
+        numberSize = 0,
         objectKeySize = 0,
 
         totalSize = 0;
 
     function addKeys(keys) {
-      var len = keys.length,
-          longestKeyLength = 0,
-          n;
+      // var len = keys.length,
+      //     longestKeyLength = 0,
+      //     n, val, type;
 
-      for (n=0; n<len; n++) {
-        longestKeyLength = Math.max(longestKeyLength, keys[n].length);
+      // // this logic was reverse engineered by obtaining data points which related key 
+      // // lengths and memory usage, plotting them into a scatter plot, and solving the 
+      // // trendlines.  Generally, memory usage seems to increase linearly as a function 
+      // // of key length
+      // for (n=0; n<len; n++) {
+      //   val = keys[n];
+      //   type = getType(val);
+
+      //   if (type === 'string') {
+      //     longestKeyLength = Math.max(longestKeyLength, keys[n].length);
+      //   }
+      // }
+
+      // objectKeySize += (9000000 + 99126 * longestKeyLength) * len / 100000;
+      // objectKeyCount += len;
+
+      // stuff
+    }
+
+    function addThing(val) {
+      var type = getType(val);
+
+      if (type === 'array') {
+        addArray(val);
       }
-
-      //console.log(longestKeyLength)
-
-      // this logic was reverse engineered by obtaining data points which related key 
-      // lengths and memory usage, plotting them into a scatter plot, and solving the 
-      // trendlines.  Generally, memory usage seems to increase linearly as a function 
-      // of key length
-      if (longestKeyLength <= 16) {
-        objectKeySize += 2 * len;
+      else if (type === 'object') {
+        addObject(val);
       }
-      else {
-        objectKeySize += (9000000 + 99126 * longestKeyLength) * len / 100000;
+      else if (type === 'string') {
+        stringCount++;
+        // string characters take up 2 bytes via UTF-16
+        stringSize += 2 * val.length;
+      }
+      else if (type === 'number') {
+        numberCount++;
+        
+        // if int
+        // integers take up between 1 and 4 bytes
+        if (val % 1 === 0) {
+          numberSize += 4;
+        }
+        // if float
+        // floats take up between 4 and 8 bytes
+        else {
+          numberSize += 8;
+        }
       }
     }
 
-    function addObject(a) {
-      var keys, len, key, n, type;
+    function addObject(obj) {
+      var keys, len, key, n, type, val;
 
       // only process if we have not yet analyzed this object
-      if (a && !a.__ballpark) {
-        keys = Object.keys(a);
+      if (obj && !obj.__ballpark) {
+        keys = Object.keys(obj);
         len = keys.length;
         objectCount++;
 
         addKeys(keys);
 
         if (len > 0) {
-          for (key in a) {
-            type = getType(a[key]);
-
-            if (type === 'array') {
-              addArray(a[key]);
-            }
-            else if (type === 'object') {
-              for (key in a) {
-                addObject(a[key]);
-              }
-            }
-            else {
-              objectElementSize += 8; 
-            }
+          for (key in obj) {
+            addThing(obj[key]);
           }
         }
 
         // add crumb so that we do not double count the same object by reference
-        a.__ballpark = true;
+        obj.__ballpark = true;
       }
     }
 
-    function addArray(a) {
-      var len, n, type;
+    function addArray(arr) {
+      var len, n, type, val;
 
       // only process if we have not yet analyzed this array
-      if (a && !a.__ballpark) {
-        len = a.length;
+      if (arr && !arr.__ballpark) {
+        len = arr.length;
         arrayCount++;
 
         if (len > 0) {
           arrayElementCount += len;
 
           for (n=0; n<len; n++) {
-
-            type = getType(a[0]);
-
-            if (type === 'array') {
-              addArray(a[n]);
-            }
-            else if (type === 'object') {
-              addObject(a[n]);
-            }
-            else {
-              arrayElementSize += 8; 
-            }
+            addThing(arr[n]);
           }
         }
 
         // add crumb so that we do not double count the same object by reference
-        a.__ballpark = true;
+        arr.__ballpark = true;
       }
     }
 
@@ -149,17 +159,22 @@
       addArray(a);
     }
 
-    totalSize = Math.ceil(arrayElementSize + objectElementSize + objectKeySize);
+    totalSize = Math.ceil(objectKeySize + stringSize + numberSize);
 
     return {
+      // counts
       objectCount: objectCount,
       objectKeyCount: objectKeyCount,
       arrayCount: arrayCount,
       arrayElementCount: arrayElementCount,
+      stringCount: stringCount,
+      numberCount: numberCount,
 
-      arrayElementSize: Math.ceil(arrayElementSize),
-      objectElementSize: Math.ceil(objectElementSize),
+      // sizes
+      stringSize: Math.ceil(stringSize),
+      numberSize: Math.ceil(numberSize),
       objectKeySize: Math.ceil(objectKeySize),
+
       size: totalSize,
       formattedSize: formatSize(totalSize)
     };
