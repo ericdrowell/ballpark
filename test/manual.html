@@ -8,100 +8,22 @@
     <script src="../src/ballpark.js"></script>
     <script>
 
-      var ballparkEnabled = true,
-          obj1 = {}, obj2 = {}, obj3 = {}, obj4 = {}, obj5 = {}, obj6 = {}, obj7 = {};
+      var arr = [];
 
-      function logBallpark(key, obj) {
-        var stats;
-
-        console.log('====== ' + key + ' ======');
-
-        if (ballparkEnabled) {
-          stats = ballpark(obj);
-          console.log(stats);
-          console.log(stats.formattedSize);
-        }
+      for (var n=0; n<1000000; n++) {
+        arr[n] = '11111111';
       }
 
-      function buildTypeArrays() {
-        var buffer = new ArrayBuffer(1000000*4),
-            n;
-        
-        testObj = new Int32Array(buffer);
+      console.log(ballpark(arr));
 
 
-        for (n=0; n<100000; n++) {
-          testObj[n] = undefined;
-        }
-      }
+      // var obj = {};
 
-      function buildArrays() {
-        var n;
+      // for (var n=0; n<1000000; n++) {
+      //   obj[n] = n + '-11111111111';
+      // }
 
-        testObj = [];
-
-        for (n=0; n<100000; n++) {
-          testArr[n] = undefined;
-        }
-      }
-
-      function buildObjects() {
-        var n;
-
-        for (n=0; n<100000; n++) {
-          obj1[n + 'key'] = 'a';
-        }
-        logBallpark('obj1', obj1);
-
-        for (n=0; n<100000; n++) {
-          obj2[n + 'keykey'] = 'a';
-        }
-        logBallpark('obj2', obj2);
-
-        for (n=0; n<100000; n++) {
-          obj3[n + 'keykeykeykey'] = 'a';
-        }
-        logBallpark('obj3', obj3);
-
-        for (n=0; n<100000; n++) {
-          obj4[n + 'keykeykeykeykeykeykeykey'] = 'a';
-        }
-        logBallpark('obj4', obj4);
-
-        for (n=0; n<100000; n++) {
-          obj5[n + 'keykeykeykeykeykeykeykeykeykeykeykeykeykeykeykey'] = 'a';
-        }
-        logBallpark('obj5', obj5);
-
-        for (n=0; n<100000; n++) {
-          obj6[n + 'keykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykey'] = 'a';
-        }
-        logBallpark('obj6', obj6);
-
-        for (n=0; n<100000; n++) {
-          obj7[n + 'keykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykey'] = 'a';
-        }
-        logBallpark('obj7', obj7);
-      }
-
-      function buildNestedObjects() {
-        var n, i, arr;
-
-        testObj = {};
-
-        for (n=0; n<100; n++) {
-          arr = [];
-
-          for (i=0; i<1000; i++) {
-            arr[i] = i * 30;
-          }
-
-          testObj[n + '-keykeykeykey'] = arr;
-        }
-      }
-
-      buildObjects();
-
+      // console.log(ballpark(arr));
     </script>
   </body>  
 </html> 
