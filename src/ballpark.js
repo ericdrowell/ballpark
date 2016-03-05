@@ -40,27 +40,10 @@
         totalSize = 0;
 
     function addKeys(keys) {
-      // var len = keys.length,
-      //     longestKeyLength = 0,
-      //     n, val, type;
+      var len = keys.length;
 
-      // // this logic was reverse engineered by obtaining data points which related key 
-      // // lengths and memory usage, plotting them into a scatter plot, and solving the 
-      // // trendlines.  Generally, memory usage seems to increase linearly as a function 
-      // // of key length
-      // for (n=0; n<len; n++) {
-      //   val = keys[n];
-      //   type = getType(val);
-
-      //   if (type === 'string') {
-      //     longestKeyLength = Math.max(longestKeyLength, keys[n].length);
-      //   }
-      // }
-
-      // objectKeySize += (9000000 + 99126 * longestKeyLength) * len / 100000;
-      // objectKeyCount += len;
-
-      // stuff
+      objectKeyCount += len;
+      objectKeySize += len * 64;
     }
 
     function addThing(val) {
