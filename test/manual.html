@@ -1,6 +1,6 @@
 <html>  
   <head>  
-    <meta charset="utf-8">
+    <meta>
     <title>ballpark Manual Testing</title>
   </head>  
   <body>  
@@ -8,22 +8,22 @@
     <script src="../src/ballpark.js"></script>
     <script>
 
-      var arr = [];
-
-      for (var n=0; n<1000000; n++) {
-        arr[n] = '11111111';
-      }
-
-      console.log(ballpark(arr));
-
-
-      // var obj = {};
+      // var arr = [];
 
       // for (var n=0; n<1000000; n++) {
-      //   obj[n] = n + '-11111111111';
+      //   arr[n] = '11111111';
       // }
 
       // console.log(ballpark(arr));
+
+
+      var obj = {};
+
+      for (var n=0; n<1000000; n++) {
+        obj[n + '-'] = '11111111';
+      }
+
+      console.log(ballpark(obj));
     </script>
   </body>  
 </html> 
